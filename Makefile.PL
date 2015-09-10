@@ -63,7 +63,7 @@ not have coverage data collected.  You may need to alter the +-inc, +-ignore
 and +-select options.
 
 EOM
-    eval "use Cwd";
+    eval { require Cwd };
     my \%inc = map { -d \$_ ? ((\$_ eq "." ? \$_ : Cwd::abs_path(\$_)) => 1) : () }
                    \@INC;
     \@Inc = sort keys \%inc;
@@ -224,7 +224,7 @@ install this module, available from CPAN.  In the meantime, you may continue to
 use the rest of Devel::Cover.
 EOM
 
-eval "use Pod::Coverage";
+eval { require Pod::Coverage };
 if (my $m = $INC{"Pod/Coverage.pm"}) {
     my $v = eval { no warnings; $Pod::Coverage::VERSION };
     print $v < 0.06 ? "$v\n\n\n$e\n\n" : "$v     $m\n";
@@ -234,7 +234,7 @@ Pod::Coverage::CountParents.pm is used for Pod coverage if it is available.  We
 will fall back to using Pod::Coverage.pm.  If you want to use
 Pod::Coverage::CountParents.pm, just install it from CPAN.
 EOM
-    eval "use Pod::Coverage::CountParents";
+    eval { require Pod::Coverage::CountParents };
     if (my $m = $INC{"Pod/Coverage/CountParents.pm"}) {
         my $v = eval { no warnings; $Pod::Coverage::CountParents::VERSION };
         $v ||= "    ";

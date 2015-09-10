@@ -24,10 +24,8 @@ use Template 2.00;
 my ($Have_highlighter, $Have_PPI, $Have_perltidy);
 
 BEGIN {
-    eval "use PPI; use PPI::HTML;";
-    $Have_PPI = !$@;
-    eval "use Perl::Tidy";
-    $Have_perltidy = !$@;
+    $Have_PPI = eval { require PPI; require PPI::HTML; 1 };
+    $Have_perltidy = eval { require Perl::Tidy; 1 };
     $Have_highlighter = $Have_PPI || $Have_perltidy;
 }
 

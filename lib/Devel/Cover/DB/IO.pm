@@ -31,7 +31,8 @@ sub new {
         unless $format =~ /^(?:Storable|JSON|Sereal)$/;
 
     $class .= "::$format";
-    eval "use $class; 1" or die "Devel::Cover: $@";
+    (my $src = "$class.pm") =~ s!::!/!g;
+    eval { require $src; 1 } or die "Devel::Cover: $@";
 
     $class->new(options => $ENV{DEVEL_COVER_IO_OPTIONS} || "", @_)
 }

@@ -41,7 +41,7 @@ BEGIN {
     die $@ if $@ && $@ !~ m/Can't locate Pod\/Coverage.+pm in \@INC/;
 
     # We'll prefer Pod::Coverage::CountParents
-    eval "use Pod::Coverage::CountParents";
+    eval { require Pod::Coverage::CountParents };
     die $@ if $@ && $@ !~ m/Can't locate Pod\/Coverage.+pm in \@INC/;
 }
 
@@ -148,7 +148,7 @@ BEGIN {
 sub version { $LVERSION }
 
 if (0 && $Config{useithreads}) {
-    eval "use threads";
+    eval { require threads };
 
     no warnings "redefine";
 
@@ -319,7 +319,7 @@ sub import {
     }
 
     if ($blib) {
-        eval "use blib";
+        eval { require blib; 'blib'->import };
         for (@INC) { $_ = $1 if /(.*)/ }  # Die tainting.
         push @Ignore, "^t/", '\\.t$', '^test\\.pl$';
     }

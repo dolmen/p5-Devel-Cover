@@ -28,7 +28,7 @@ sub new {
     my $criteria = delete $params{criteria} ||
                    "statement branch condition subroutine";
 
-    eval "use Test::Differences";
+    eval { require Test::Differences; Test::Differences->import };
     my $differences = $INC{"Test/Differences.pm"};
 
     my $self = bless {
